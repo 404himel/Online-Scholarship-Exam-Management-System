@@ -72,7 +72,8 @@ The **Online Scholarship Exam Management System** is a web-based platform develo
 - Develop mobile app interface for student access.
 
 ## Author
-- **Your Name** – Computer Science Student, Comilla University, Bangladesh  
+- **Md. Tanvir Mahamud Himel** 
 
 ## License
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+# Online-Scholarship-Exam-Management-System
