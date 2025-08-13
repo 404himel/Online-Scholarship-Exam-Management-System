@@ -78,7 +78,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '2025projecttemp@gmail.com'       
-
+EMAIL_HOST_PASSWORD = 'wufh qvad mqws swpr'
 
 
 ROOT_URLCONF = 'db_project.urls'
@@ -105,22 +105,13 @@ WSGI_APPLICATION = 'db_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'himel',
-#         'USER': 'root',
-#         'PASSWORD': 'Password123!',
-#         'HOST': 'localhost',  
-#         'PORT': '3306',      
-#     }
-# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_project',
         'USER': 'root',
-        'PASSWORD': 'Password123!',
+        'PASSWORD': '******',
         'HOST': 'localhost',  
         'PORT': '3307',       
     }
