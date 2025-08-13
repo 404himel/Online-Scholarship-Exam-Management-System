@@ -78,7 +78,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '2025projecttemp@gmail.com'       
-EMAIL_HOST_PASSWORD = 'wufh qvad mqws swpr'
+
 
 
 ROOT_URLCONF = 'db_project.urls'
