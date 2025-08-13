@@ -78,7 +78,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '2025projecttemp@gmail.com'       
-
+EMAIL_HOST_PASSWORD = '****************'  # Replace with your email password
 
 
 ROOT_URLCONF = 'db_project.urls'
@@ -111,7 +111,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_project',
         'USER': 'root',
-        'PASSWORD': '******',
+        'PASSWORD': '****************',  # Replace with your database password
         'HOST': 'localhost',  
         'PORT': '3307',       
     }
