@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Analysis</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Color System */
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+
+            --secondary-50: #f8fafc;
+            --secondary-100: #f1f5f9;
+            --secondary-200: #e2e8f0;
+            --secondary-300: #cbd5e1;
+            --secondary-400: #94a3b8;
+            --secondary-500: #64748b;
+            --secondary-600: #475569;
+            --secondary-700: #334155;
+            --secondary-800: #1e293b;
+            --secondary-900: #0f172a;
+
+            --success-500: #10b981;
+            --success-600: #059669;
+            --warning-500: #f59e0b;
+            --warning-600: #d97706;
+            --danger-500: #ef4444;
+            --danger-600: #dc2626;
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+  body {
+    padding-top: 60px; /* height of header + some space */
+    /* keep existing styles */
+    background-color: #f7f9fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: var(--space-10);
+            position: relative;
+            padding-top: var(--space-12);
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-header i {
+            position: absolute;
+            top: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: white;
+            z-index: 1;
+        }
+
+        .form-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-3);
+            margin-top: var(--space-10);
+        }
+
+        .form-subtitle {
+            color: var(--secondary-500);
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--secondary-700);
+            margin-bottom: var(--space-3);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .form-label i {
+            margin-right: var(--space-2);
+            color: var(--primary-500);
+            font-size: 1rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: var(--space-4) var(--space-5);
+            border: 2px solid var(--secondary-200);
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input:hover,
+        .form-select:hover {
+            border-color: var(--primary-300);
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right var(--space-3) center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: var(--space-10);
+        }
+
+        .form-select:focus {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: var(--space-5) var(--space-6);
+            border-radius: var(--radius-xl);
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn i {
+            margin-left: var(--space-2);
+        }
+
+        /* Input Groups with Icons */
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-400);
+            font-size: 1.125rem;
+            transition: color 0.2s ease;
+            z-index: 1;
+        }
+
+        .input-group .form-input,
+        .input-group .form-select {
+            padding-left: var(--space-10);
+        }
+
+        .input-group .form-input:focus + .input-icon,
+        .input-group .form-select:focus + .input-icon {
+            color: var(--primary-500);
+        }
+
+        /* Progress Steps */
+        .progress-container {
+            margin-bottom: var(--space-8);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--secondary-200);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: var(--space-4);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: var(--radius-sm);
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--secondary-500);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Loading State */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            margin-left: -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-4);
+            }
+
+            .form-card {
+                padding: var(--space-6);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .form-title {
+                font-size: 1.75rem;
+            }
+
+            .form-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: var(--space-5);
+                border-radius: var(--radius-xl);
+            }
+
+            .form-input,
+            .form-select {
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .input-group .form-input,
+            .input-group .form-select {
+                padding-left: var(--space-8);
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(7) { animation-delay: 0.7s; }
+        .form-group:nth-child(8) { animation-delay: 0.8s; }
+        .form-group:nth-child(9) { animation-delay: 0.9s; }
+
+        /* Validation Styles */
+        .form-input:invalid,
+        .form-select:invalid {
+            border-color: var(--danger-500);
+        }
+
+        .form-input:valid,
+        .form-select:valid {
+            border-color: var(--success-500);
+        }
+        /* Header fixed to top */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;      /* Fix at top */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+      nav {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         width: 100%;
+      }
+
+      .menu-button {
+         cursor: pointer;
+         font-size: 24px;
+         color: white;
+      }
+form.logout-form {
+    display: inline-block; /* or inline */
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+      .right-section {
+         display: flex;
+         align-items: center;
+         gap: 15px;
+      }
+
+      .facebook-logo img {
+         width: 30px;
+         height: 32px;
+         margin-top: 5px;
+      }
+.right-section button {
+    padding: 6px 12px;
+    font-size: 14px;
+    height: 32px;
+    line-height: 20px;
+}
+    .logout-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 6px 12px;       /* smaller padding */
+    font-size: 14px;         /* smaller font */
+    cursor: pointer;
+    border-radius: 4px;
+    height: 32px;            /* fix height */
+    line-height: 20px;
+}
+
+
+      .logout-btn:hover {
+         background-color: #0056b3;
+      }
+
+      .dropdown {
+         position: relative;
+      }
+
+      .dropbtn {
+         background-color: #4a90e2;
+         color: white;
+         padding: 10px 14px;
+         font-size: 14px;
+         border: none;
+         border-radius: 8px;
+         cursor: pointer;
+      }
+
+      .dropdown-content {
+         display: none;
+         position: absolute;
+         right: 0;
+         background-color: white;
+         min-width: 160px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+         z-index: 1;
+         border-radius: 8px;
+         overflow: hidden;
+      }
+
+      .dropdown-content a {
+         color: #333;
+         padding: 12px 16px;
+         text-decoration: none;
+         display: block;
+         font-size: 14px;
+      }
+
+      .dropdown-content a:hover {
+         background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+         display: block;
+      }
+
+      .menu-overlay {
+         position: fixed;
+         top: 0;
+         left: -100%;
+         width: 250px;
+         height: 100%;
+         background-color: #333;
+         transition: left 0.3s ease;
+         z-index: 1000;
+      }
+
+      .menu-overlay.active {
+         left: 0;
+      }
+
+      .menu-items {
+         list-style-type: none;
+         padding: 20px;
+      }
+
+      .menu-items li {
+         margin: 15px 0;
+      }
+
+      .menu-items li a {
+         color: white;
+         text-decoration: none;
+         font-size: 18px;
+      }
+
+      .menu-items li a:hover {
+         color: #ddd;
+      }
+
+      /* --- Footer styles (copied from previous page) --- */
+      footer {
+         background: linear-gradient(135deg, #1a2a41, #3a5f8a);
+         color: white;
+         padding: 40px 20px;
+         text-align: center;
+         position: relative;
+         width: 100%;
+         margin-top: auto;
+      }
+
+      .footer-content {
+         max-width: 1200px;
+         margin: 0 auto;
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+         gap: 40px;
+         text-align: left;
+      }
+
+      .footer-column h3 {
+         font-size: 1.3rem;
+         margin-bottom: 20px;
+         position: relative;
+         padding-bottom: 10px;
+      }
+
+      .footer-column h3:after {
+         content: '';
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 40px;
+         height: 3px;
+         background-color: #f4b942;
+      }
+
+      .footer-links {
+         list-style: none;
+      }
+
+      .footer-links li {
+         margin-bottom: 10px;
+      }
+
+      .footer-links a {
+         color: #ddd;
+         text-decoration: none;
+         transition: all 0.3s;
+      }
+
+      .footer-links a:hover {
+         color: white;
+         padding-left: 5px;
+      }
+
+      .social-links {
+         display: flex;
+         gap: 15px;
+         margin-top: 20px;
+      }
+
+      .social-links a {
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         width: 36px;
+         height: 36px;
+         background-color: rgba(255, 255, 255, 0.1);
+         color: white;
+         border-radius: 50%;
+         transition: all 0.3s;
+         font-weight: bold;
+         font-size: 16px;
+         text-transform: uppercase;
+      }
+
+      .social-links a:hover {
+         background-color: #4a90e2;
+         transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+         margin-top: 40px;
+         padding-top: 20px;
+         border-top: 1px solid rgba(255, 255, 255, 0.1);
+         text-align: center;
+         font-size: 0.9rem;
+         color: #aaa;
+      }
+    </style>
+</head>
+<body>
+     <header>
+      <nav>
+         <!-- Left Side: Menu Button -->
+         <div class="menu-button" id="menuButton">
+            <span>☰</span>
+         </div>
+
+         <!-- Right Side -->
+         <div class="right-section">
+            <a href="https://facebook.com" target="_blank" class="facebook-logo">
+               <img src="{% static 'facebook-icon.png' %}" alt="Facebook" />
+            </a>
+
+            {% if user.is_authenticated %}
+            <!-- Dashboard Button for Student -->
+            <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Profile</button>
+
+          <form action="{% url 'logout' %}" method="POST" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">Log Out</button>
+</form>
+
+            {% else %}
+            <!-- Dropdown for Login -->
+            <div class="dropdown">
+               <button class="dropbtn">Log In ▾</button>
+               <div class="dropdown-content">
+                  <a href="{% url 'admin_login' %}">Admin Login</a>
+                  <a href="{% url 'login' %}">User Login</a>
+               </div>
+            </div>
+
+            <!-- Signup button -->
+            <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+            {% endif %}
+         </div>
+      </nav>
+
+      <!-- Menu (Hidden by Default) -->
+      <div class="menu-overlay" id="menuOverlay">
+         <ul class="menu-items">
+            <li><a href="/">Home</a></li>
+            <li><a href="/notice">Notice</a></li>
+            <li><a href="/admit">Admit Card</a></li>
+            <li><a href="/result">Result</a></li>
+            <li><a href="/faq">FAQs</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+            <li><a href="/quiz/start">Mock Test</a></li>
+            <li><a href="/resources">Resources</a></li>
+            <li><a href="/performance-home">Performance Analysis</a></li>
+            <li><a href="/chat-home">Chat Bot</a></li>
+         </ul>
+      </div>
+   </header>
+    <main>    <div class="container">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fas fa-user-graduate"></i>
+                <h1 class="form-title">Student Performance Analysis</h1>
+                <p class="form-subtitle">Help us analyze your academic performance with this comprehensive assessment</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">Complete all fields to proceed</p>
+            </div>
+
+            <form action="/performance-result/" method="POST" id="userForm">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="Student_Age" class="form-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            Student Age
+                        </label>
+                        <div class="input-group">
+                            <input type="number" id="Student_Age" name="Student_Age" class="form-input" 
+                                   min="15" max="30" placeholder="Enter your age" required>
+                            <i class="fas fa-birthday-cake input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Sex" class="form-label">
+                            <i class="fas fa-venus-mars"></i>
+                            Gender
+                        </label>
+                        <div class="input-group">
+                            <select id="Sex" name="Sex" class="form-select" required>
+                                <option value="">Select Gender</option>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="High_School_Type" class="form-label">
+                            <i class="fas fa-school"></i>
+                            High School Type
+                        </label>
+                        <div class="input-group">
+                            <select id="High_School_Type" name="High_School_Type" class="form-select" required>
+                                <option value="">Select School Type</option>
+                                <option value="1">State School</option>
+                                <option value="2">Private School</option>
+                                <option value="0">Other</option>
+                            </select>
+                            <i class="fas fa-graduation-cap input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Scholarship" class="form-label">
+                            <i class="fas fa-percentage"></i>
+                            Scholarship Percentage
+                        </label>
+                        <div class="input-group">
+                            <input type="number" id="Scholarship" name="Scholarship" class="form-input" 
+                                   min="0" max="100" placeholder="Enter scholarship %" required>
+                            <i class="fas fa-award input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Additional_Work" class="form-label">
+                            <i class="fas fa-briefcase"></i>
+                            Additional Work
+                        </label>
+                        <div class="input-group">
+                            <select id="Additional_Work" name="Additional_Work" class="form-select" required>
+                                <option value="">Do you work part-time?</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <i class="fas fa-business-time input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Sports_activity" class="form-label">
+                            <i class="fas fa-running"></i>
+                            Sports Activity
+                        </label>
+                        <div class="input-group">
+                            <select id="Sports_activity" name="Sports_activity" class="form-select" required>
+                                <option value="">Participate in sports?</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <i class="fas fa-futbol input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Weekly_Study_Hours" class="form-label">
+                            <i class="fas fa-clock"></i>
+                            Weekly Study Hours
+                        </label>
+                        <div class="input-group">
+                            <input type="number" id="Weekly_Study_Hours" name="Weekly_Study_Hours" 
+                                   class="form-input" min="0" max="168" placeholder="Hours per week" required>
+                            <i class="fas fa-book-reader input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Attendance" class="form-label">
+                            <i class="fas fa-calendar-check"></i>
+                            Attendance Pattern
+                        </label>
+                        <div class="input-group">
+                            <select id="Attendance" name="Attendance" class="form-select" required>
+                                <option value="">Select attendance pattern</option>
+                                <option value="0">Always Present</option>
+                                <option value="2">Sometimes Absent</option>
+                                <option value="1">Frequently Absent</option>
+                            </select>
+                            <i class="fas fa-check-circle input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Notes" class="form-label">
+                            <i class="fas fa-sticky-note"></i>
+                            Note Taking Habit
+                        </label>
+                        <div class="input-group">
+                            <select id="Notes" name="Notes" class="form-select" required>
+                                <option value="">Do you take notes regularly?</option>
+                                <option value="1">Yes, Always</option>
+                                <option value="0">No, Never</option>
+                                <option value="2">Sometimes</option>
+                            </select>
+                            <i class="fas fa-pencil-alt input-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Analyze Performance
+                    <i class="fas fa-chart-line"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+<footer>
+      <div class="footer-content">
+         <div class="footer-column">
+            <h3>Kazi Mofizul Islam Welfare Trust</h3>
+            <p>Empowering students through education and scholarship opportunities since 2010.</p>
+            <div class="social-links">
+               <a href="#"><span>fb</span></a>
+               <a href="#"><span>tw</span></a>
+               <a href="#"><span>ig</span></a>
+               <a href="#"><span>yt</span></a>
+            </div>
+         </div>
+         <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+               <li><a href="/">Home</a></li>
+               <li><a href="/notice">Notice</a></li>
+               <li><a href="/admit">Admit Card</a></li>
+               <li><a href="/result">Result</a></li>
+               <li><a href="/faq">FAQs</a></li>
+            </ul>
+         </div>
+         <div class="footer-column">
+            <h3>Contact Us</h3>
+            <p>123 Education Street</p>
+            <p>Dhaka, Bangladesh</p>
+            <p>Email: info@kmiwt.org</p>
+            <p>Phone: +880 123 456 7890</p>
+         </div>
+      </div>
+      <div class="footer-bottom">
+         <p>&copy; 2023 Kazi Mofizul Islam Welfare Trust. All rights reserved.</p>
+      </div>
+   </footer>
+    <script>
+              const menuButton = document.getElementById('menuButton');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      menuButton.addEventListener('click', (event) => {
+         event.stopPropagation();
+         menuOverlay.classList.toggle('active');
+      });
+
+      document.addEventListener('click', () => {
+         menuOverlay.classList.remove('active');
+      });
+
+      menuOverlay.addEventListener('click', (event) => {
+         event.stopPropagation();
+      });
+
+      
+        // Form validation and progress tracking
+        const form = document.getElementById('userForm');
+        const inputs = form.querySelectorAll('input[required], select[required]');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function updateProgress() {
+            let filledInputs = 0;
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledInputs++;
+                }
+            });
+
+            const progress = (filledInputs / inputs.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            if (progress === 100) {
+                progressText.textContent = 'Ready to submit!';
+                progressText.style.color = 'var(--success-600)';
+            } else {
+                progressText.textContent = `${Math.round(progress)}% Complete - Fill remaining fields`;
+                progressText.style.color = 'var(--secondary-500)';
+            }
+        }
+
+        // Add event listeners to all inputs
+        inputs.forEach(input => {
+            input.addEventListener('input', updateProgress);
+            input.addEventListener('change', updateProgress);
+        });
+
+        // Form submission with loading state
+        form.addEventListener('submit', function(e) {
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = 'Processing...';
+        });
+
+        // Input validation feedback
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = 'var(--success-500)';
+                } else {
+                    this.style.borderColor = 'var(--danger-500)';
+                }
+            });
+        });
+
+        // Initialize progress
+        updateProgress();
+
+        // Add some interactive feedback
+        document.querySelectorAll('.form-input, .form-select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentNode.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentNode.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

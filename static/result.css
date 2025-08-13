@@ -1,0 +1,212 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+}
+
+/* Header and Navbar */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Menu Button */
+.menu-button {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Right Section */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.facebook-logo img {
+    width: 30px;
+    height: 32px;
+}
+
+.auth-buttons button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.auth-buttons button:hover {
+    background-color: #777;
+}
+
+/* Sidebar Menu */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.menu-overlay.active {
+    left: 0;
+}
+
+.menu-items {
+    list-style-type: none;
+}
+
+.menu-items li {
+    margin: 15px 0;
+}
+
+.menu-items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-items li a:hover {
+    color: #ddd;
+}
+
+/* Container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+/* Form */
+.result-form {
+    width: 60%;
+    margin: 20px auto;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+
+
+/* Table Styling */
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.result-table th {
+    background-color: #444;
+    color: white;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.result-table tr:hover {
+    background-color: #ddd;
+}
+
+/* Action Buttons */
+.edit-btn,
+.delete-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

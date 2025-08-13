@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Result</title>
+    <style>
+        .sort-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .sort-btn {
+            display: inline-block;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .sort-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .sort-btn:active {
+            background-color: #3e8e41;
+        }
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropbtn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        </style>
+        
+    <link rel="stylesheet" href="{% static 'result.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+        
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook">
+                </a>
+        
+                {% if user.is_authenticated %}
+                <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Dashboard</button>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+        
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <!-- <li><a href="/user_info">User info</a></li> -->
+                <!-- <li><a href="/delete">Deleted info</a></li> -->
+                <li><a href="/quiz/start">Mock Test</a></li>
+                <li><a href="/resources">Resources</a></li>
+                 <li><a href="/performance-home">Performance Analysis</a></li>
+                 <li><a href="/chat-home">Chat Bot</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Final Exam Results</h1>
+        <h2>Check Your Exam Result</h2>
+        <div class="result-section">
+            <form action="{% url 'result' %}" method="POST" class="result-form">
+                {% csrf_token %}
+                <label for="reg_no">Enter your School Name:</label>
+                <input type="text" id="reg_no" name="school" required>
+                <button type="submit">Check Result</button>
+            </form>
+            
+        </div>
+        
+        
+        <div class="sort-buttons">
+            <a href="?sort=asc" class="sort-btn">Sort Ascending</a>
+            <a href="?sort=desc" class="sort-btn">Sort Descending</a>
+        </div>
+        
+
+         <div class="table-container">
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        {% comment %} <th>Position</th> <!-- Added Position column --> {% endcomment %}
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>School</th>
+                        <th>Mark</th>
+                        {% comment %} <th>Actions</th> {% endcomment %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for us in userdata %}
+                    <tr>
+                        {% comment %} <td>{{ us.position }}</td> <!-- Display Position --> {% endcomment %}
+                        <td>{{ us.uid }}</td>
+                        <td>{{ us.name }}</td>
+                        <td>{{ us.school }}</td>
+                        <td>{{ us.umark }}</td>
+                        {% comment %} <td>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td> {% endcomment %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Scholarship Provider. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Menu -->
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            menuOverlay.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        menuOverlay.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>

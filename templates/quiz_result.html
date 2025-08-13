@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Result</title>
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #34495e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .result-container {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #2980b9;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+    }
+
+    .score {
+      font-size: 4rem;
+      font-weight: 900;
+      color: #27ae60;
+      margin: 20px 0 10px;
+      position: relative;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .summary {
+      font-size: 1.1rem;
+      margin: 8px 0;
+      color: #555d66;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 80%;
+      max-width: 280px;
+      margin: 15px auto 0 auto;
+      background: #2980b9;
+      color: white;
+      padding: 14px 0;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.4);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background-color: #1c5d8b;
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(28, 93, 139, 0.6);
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px #27ae60;
+      }
+
+      50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 25px #27ae60;
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="result-container">
+    <h2>Quiz Result</h2>
+    <p class="summary">Total Questions: <strong>{{ total }}</strong></p>
+    <p class="summary">Correct Answers: <strong>{{ correct }}</strong></p>
+    <p class="score">{{ score }}%</p>
+    <br />
+    <a href="{% url 'start_quiz' %}" class="btn" role="button">Take Quiz Again</a>
+    <a href="{% url 'home' %}" class="btn" role="button" style="background-color: #7f8c8d; margin-top: 10px;">
+      Home
+    </a>
+  </div>
+</body>
+
+</html>

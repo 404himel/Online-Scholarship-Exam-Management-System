@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Analysis Result</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Color System */
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+
+            --success-50: #ecfdf5;
+            --success-100: #d1fae5;
+            --success-200: #a7f3d0;
+            --success-300: #6ee7b7;
+            --success-400: #34d399;
+            --success-500: #10b981;
+            --success-600: #059669;
+            --success-700: #047857;
+            --success-800: #065f46;
+            --success-900: #064e3b;
+
+            --warning-50: #fffbeb;
+            --warning-100: #fef3c7;
+            --warning-200: #fde68a;
+            --warning-300: #fcd34d;
+            --warning-400: #fbbf24;
+            --warning-500: #f59e0b;
+            --warning-600: #d97706;
+            --warning-700: #b45309;
+            --warning-800: #92400e;
+            --warning-900: #78350f;
+
+            --danger-50: #fef2f2;
+            --danger-100: #fee2e2;
+            --danger-200: #fecaca;
+            --danger-300: #fca5a5;
+            --danger-400: #f87171;
+            --danger-500: #ef4444;
+            --danger-600: #dc2626;
+            --danger-700: #b91c1c;
+            --danger-800: #991b1b;
+            --danger-900: #7f1d1d;
+
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            /* Gradients */
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-background: linear-gradient(135deg, #c5c8d4 0%, #3b474b 100%);
+
+            /* Spacing */
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+
+            /* Border Radius */
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-3xl: 2rem;
+
+            /* Shadows */
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gradient-background);
+            background-attachment: fixed;
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-6);
+        }
+
+        .result-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            margin-bottom: var(--space-8);
+            position: relative;
+        }
+
+        .result-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-6);
+            font-size: 3rem;
+            color: white;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        .result-title {
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: var(--space-4);
+        }
+
+        .grade-display {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-2xl);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            min-width: 100px;
+            color: white;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grade-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .grade-display:hover::before {
+            left: 100%;
+        }
+
+        .result-message {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: var(--space-8);
+            line-height: 1.6;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+
+        .stat-item {
+            background: var(--gray-50);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-2px);
+        }
+
+        /* Grade-specific styles */
+        .grade-aa .result-icon, .grade-aa .grade-display {
+            background: var(--gradient-success);
+        }
+
+        .grade-ba .result-icon, .grade-ba .grade-display {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .grade-bb .result-icon, .grade-bb .grade-display {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        .grade-cb .result-icon, .grade-cb .grade-display {
+            background: var(--gradient-warning);
+        }
+
+        .grade-cc .result-icon, .grade-cc .grade-display {
+            background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
+        }
+
+        .grade-dc .result-icon, .grade-dc .grade-display {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        }
+
+        .grade-dd .result-icon, .grade-dd .grade-display {
+            background: var(--gradient-danger);
+        }
+
+        .grade-ff .result-icon, .grade-ff .grade-display {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+        }
+
+        /* Performance indicators */
+        .performance-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+
+        .indicator-excellent {
+            background: var(--success-100);
+            color: var(--success-700);
+        }
+
+        .indicator-good {
+            background: var(--primary-100);
+            color: var(--primary-700);
+        }
+
+        .indicator-fair {
+            background: var(--warning-100);
+            color: var(--warning-700);
+        }
+
+        .indicator-poor {
+            background: var(--danger-100);
+            color: var(--danger-700);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-4);
+            }
+
+            .result-card {
+                padding: var(--space-8);
+            }
+
+            .result-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .result-card {
+                padding: var(--space-6);
+                border-radius: var(--radius-2xl);
+            }
+
+            .performance-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading animation for better UX */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Celebration animation for excellent grades */
+        .celebration {
+            position: relative;
+        }
+
+        .celebration::after {
+            content: '🎉';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 2rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result-card {% if prediction == '0' %}grade-aa{% elif prediction == '1' %}grade-ba{% elif prediction == '2' %}grade-bb{% elif prediction == '3' %}grade-cb{% elif prediction == '4' %}grade-cc{% elif prediction == '5' %}grade-dc{% elif prediction == '6' %}grade-dd{% elif prediction == '7' %}grade-ff{% endif %}">
+            <div class="result-header">
+                <div class="result-icon {% if prediction == '0' or prediction == '1' %}celebration{% endif %}">
+                    {% if prediction == '0' %}
+                        <i class="fas fa-trophy"></i>
+                    {% elif prediction == '1' %}
+                        <i class="fas fa-medal"></i>
+                    {% elif prediction == '2' %}
+                        <i class="fas fa-award"></i>
+                    {% elif prediction == '3' %}
+                        <i class="fas fa-thumbs-up"></i>
+                    {% elif prediction == '4' %}
+                        <i class="fas fa-equals"></i>
+                    {% elif prediction == '5' %}
+                        <i class="fas fa-exclamation-triangle"></i>
+                    {% elif prediction == '6' %}
+                        <i class="fas fa-times-circle"></i>
+                    {% elif prediction == '7' %}
+                        <i class="fas fa-heart-broken"></i>
+                    {% else %}
+                        <i class="fas fa-question-circle"></i>
+                    {% endif %}
+                </div>
+                
+                <h1 class="result-title">Performance Analysis Complete</h1>
+                
+                <div class="grade-display">
+                    {% if prediction == '0' %}AA
+                    {% elif prediction == '1' %}BA
+                    {% elif prediction == '2' %}BB
+                    {% elif prediction == '3' %}CB
+                    {% elif prediction == '4' %}CC
+                    {% elif prediction == '5' %}DC
+                    {% elif prediction == '6' %}DD
+                    {% elif prediction == '7' %}FF
+                    {% else %}N/A{% endif %}
+                </div>
+
+                <div class="performance-indicator {% if prediction == '0' or prediction == '1' %}indicator-excellent{% elif prediction == '2' or prediction == '3' %}indicator-good{% elif prediction == '4' or prediction == '5' %}indicator-fair{% else %}indicator-poor{% endif %}">
+                    {% if prediction == '0' or prediction == '1' %}
+                        <i class="fas fa-star"></i>
+                        Outstanding Performance
+                    {% elif prediction == '2' or prediction == '3' %}
+                        <i class="fas fa-check-circle"></i>
+                        Good Performance
+                    {% elif prediction == '4' or prediction == '5' %}
+                        <i class="fas fa-clock"></i>
+                        Needs Improvement
+                    {% else %}
+                        <i class="fas fa-exclamation"></i>
+                        Requires Attention
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="result-message fade-in">
+                {% if prediction == '0' %}
+                    <p>🌟 <strong>Exceptional Achievement!</strong> You have achieved the highest grade of AA. Your dedication and hard work have truly paid off. Keep up this outstanding performance!</p>
+                {% elif prediction == '1' %}
+                    <p>🎯 <strong>Excellent Work!</strong> You secured a BA grade, demonstrating strong academic performance. You're on the right track - maintain this momentum!</p>
+                {% elif prediction == '2' %}
+                    <p>👍 <strong>Solid Performance!</strong> A BB grade shows you are performing well across your studies. Keep pushing forward with confidence!</p>
+                {% elif prediction == '3' %}
+                    <p>⚡ <strong>Good Effort!</strong> The CB grade indicates decent performance with room for growth. Stay motivated and focus on your improvement areas.</p>
+                {% elif prediction == '4' %}
+                    <p>📊 <strong>Average Performance</strong> Your CC grade shows steady progress. Identify your weak points and create a focused study plan to improve.</p>
+                {% elif prediction == '5' %}
+                    <p>⚠️ <strong>Below Average Results</strong> The DC grade suggests you need to review your study approach. Consider seeking additional support in key subjects.</p>
+                {% elif prediction == '6' %}
+                    <p>🔄 <strong>Significant Improvement Needed</strong> The DD grade indicates major challenges ahead. Don't lose hope - create a comprehensive improvement strategy.</p>
+                {% elif prediction == '7' %}
+                    <p>💪 <strong>Time for a Fresh Start</strong> While this result is disappointing, failure is not final. Seek guidance, adjust your approach, and come back stronger!</p>
+                {% else %}
+                    <p>❓ <strong>Result Unavailable</strong> We couldn't process your performance data. Please try again or contact our support team for assistance.</p>
+                {% endif %}
+            </div>
+
+            <div class="performance-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Grade Level</div>
+                    <div class="stat-value">
+                        {% if prediction == '0' or prediction == '1' %}A{% elif prediction == '2' or prediction == '3' %}B{% elif prediction == '4' or prediction == '5' %}C{% elif prediction == '6' %}D{% elif prediction == '7' %}F{% else %}-{% endif %}
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Status</div>
+                    <div class="stat-value">
+                        {% if prediction == '7' %}Failed{% else %}Passed{% endif %}
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Ranking</div>
+                    <div class="stat-value">
+                        {% if prediction == '0' %}Top 5%{% elif prediction == '1' %}Top 15%{% elif prediction == '2' %}Top 30%{% elif prediction == '3' %}Top 50%{% elif prediction == '4' %}Average{% elif prediction == '5' %}Below Avg{% elif prediction == '6' %}Bottom 20%{% elif prediction == '7' %}Bottom 10%{% else %}N/A{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'performance_home' %}" class="btn btn-primary">
+                    <i class="fas fa-redo"></i>
+                    Retake Analysis
+                </a>
+                <a href="#" class="btn btn-secondary" onclick="window.print()">
+                    <i class="fas fa-download"></i>
+                    Save Result
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats on load
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach((stat, index) => {
+                stat.style.opacity = '0';
+                stat.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    stat.style.transition = 'all 0.6s ease';
+                    stat.style.opacity = '1';
+                    stat.style.transform = 'translateY(0)';
+                }, (index + 1) * 200);
+            });
+
+            // Add hover sound effect (optional - can be removed)
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

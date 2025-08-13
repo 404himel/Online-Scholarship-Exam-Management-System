@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Quiz - Admin Panel</title>
+  <style>
+    /* Base and Layout */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f4f7f6;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding-top: 20px;
+      z-index: 1000;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+
+    .sidebar-header {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.6rem;
+      padding: 15px 10px;
+      border-bottom: 1px solid #3e516c;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0 0;
+    }
+
+    .sidebar-nav li a {
+      display: block;
+      padding: 14px 25px;
+      color: #bdc3c7;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .sidebar-nav li a:hover {
+      background: #34495e;
+      color: #fff;
+    }
+
+    .sidebar-nav li a.active {
+      background: #1abc9c;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding: 40px 50px;
+      width: calc(100% - 250px);
+      background: #f4f7f6;
+      min-height: 100vh;
+    }
+
+    /* Headings */
+    h2, h3, h4 {
+      color: #2c3e50;
+      border-bottom: 2px solid #eaeaea;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Form Elements */
+    form > div,
+    form > label {
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    input[type="text"],
+    textarea,
+    select,
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus,
+    input[type="datetime-local"]:focus {
+      border-color: #1abc9c;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Buttons */
+    button,
+    .button {
+      background-color: #1abc9c;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 12px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      font-weight: 600;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    button:hover,
+    .button:hover {
+      background-color: #16a085;
+    }
+
+    .btn-primary {
+      background-color: #3498db;
+    }
+
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+
+    .btn-danger {
+      background-color: #e74c3c;
+    }
+
+    .btn-danger:hover {
+      background-color: #c0392b;
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+    }
+
+    /* Messages */
+    .messages-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      padding: 15px 20px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border-left: 5px solid;
+      font-weight: 600;
+    }
+
+    .message-success {
+      background-color: #e8f5e9;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+
+    .message-error,
+    .message-danger {
+      background-color: #ffebee;
+      border-color: #f44336;
+      color: #c62828;
+    }
+
+    .message-info {
+      background-color: #e3f2fd;
+      border-color: #2196f3;
+      color: #1565c0;
+    }
+
+    /* List of quizzes/questions */
+    .item-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      background: white;
+    }
+
+    .item-list li {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      font-weight: 500;
+    }
+
+    .item-list li:last-child {
+      border-bottom: none;
+    }
+
+    .item-list a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .item-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* Choice input group */
+    .choice-input-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .choice-input-group input[type="text"] {
+      flex-grow: 1;
+      margin-bottom: 0;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    .choice-input-group input[type="text"]:focus {
+      border-color: #1abc9c;
+      outline: none;
+    }
+
+    .is-correct-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .choice-input-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .choice-input-group label {
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      color: #555;
+    }
+
+    /* --- New styles for delete button and layout --- */
+    .question-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .question-text {
+      flex: 1 1 auto;
+    }
+
+    .question-actions {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-delete-center {
+      background-color: #ffe6e6; /* Light red background */
+      border: 1px solid #ff4d4d;
+      color: red; /* Delete text in red */
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .btn-delete-center:hover {
+      background-color: #ffcccc;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">Admin Panel</div>
+    <ul class="sidebar-nav">
+      <li><a href="/custom-admin/">Dashboard</a></li>
+      <li><a href="{% url 'manage_users' %}">Manage Users</a></li>
+      <li><a href="{% url 'manage_results' %}">Manage Results</a></li>
+      <li><a href="/manage-notices/">Notices</a></li>
+      <li><a href="/manage-quiz-questions/" class="active">Quiz</a></li>
+      <li><a href="/manage-resource/">Resources</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <h2>Manage Quizzes and Questions</h2>
+
+    <h2>Exam Time Setting</h2>
+    <form method="POST" action="">  
+      {% csrf_token %}
+      {% load tz %}
+
+      <label for="start_time_input">Set Exam Start Time (in your local time):</label>
+      <br />
+      <input type="datetime-local" 
+             id="start_time_input"
+             name="start_time" 
+             value="{% if exam_setting.start_time %}{% timezone 'Asia/Dhaka' %}{{ exam_setting.start_time|date:'Y-m-d\TH:i' }}{% endtimezone %}{% endif %}"
+             required />
+             
+      <button type="submit" name="update_exam_time">Update Exam Time</button>
+      
+      {% if exam_setting and exam_setting.start_time %}
+        <p><small>Current exam time set to: {{ exam_setting.start_time }} (Your local time: {{ exam_setting.start_time|localtime }})</small></p>
+      {% else %}
+        <p><small>No exam time has been set yet.</small></p>
+      {% endif %}
+
+      <p><small>Current server time (Asia/Dhaka): {% now "Y-m-d H:i:s" %}</small></p>
+    </form>
+
+    {% if exam_setting %}
+      <p><strong>Current Exam Start Time:</strong> {{ exam_setting.start_time }}</p>
+    {% else %}
+      <p>No exam time set yet.</p>
+    {% endif %}
+    <hr />
+
+    {% if messages %}
+      <ul class="messages-list">
+        {% for message in messages %}
+          <li class="message message-{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="card">
+      <h3>Create a New Quiz</h3>
+      <form method="post" style="display: flex; gap: 15px; align-items: center;">
+        {% csrf_token %}
+        <input type="text" name="quiz_title" placeholder="New Quiz Title" required />
+        <button type="submit" name="add_quiz" class="btn-primary">Add Quiz</button>
+      </form>
+    </div>
+
+    {% if quizzes %}
+      <div class="card">
+        <h3>Manage Existing Quizzes</h3>
+        <form method="get">
+          <label for="quizSelect">Select Quiz to Manage Questions:</label>
+          <select id="quizSelect" name="quiz" onchange="this.form.submit()">
+            <option value="" {% if not selected_quiz %}selected{% endif %}>-- Select a Quiz --</option>
+            {% for quiz in quizzes %}
+              <option value="{{ quiz.id }}" {% if quiz.id == selected_quiz.id %}selected{% endif %}>{{ quiz.title }}</option>
+            {% endfor %}
+          </select>
+        </form>
+
+        <hr style="margin: 25px 0; border: 1px solid #eee;" />
+
+        <ul class="item-list">
+          {% for quiz in quizzes %}
+            <li>
+              <a href="?quiz={{ quiz.id }}">{{ quiz.title }}</a>
+              <form method="post" onsubmit="return confirm('Are you sure you want to delete this quiz and ALL its questions?');" style="margin: 0;">
+                {% csrf_token %}
+                <input type="hidden" name="quiz_id_to_delete" value="{{ quiz.id }}">
+                <button type="submit" name="delete_quiz" class="btn-danger btn-sm">Delete</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="message message-info">No quizzes available. Add one above to get started.</div>
+    {% endif %}
+
+    {% if selected_quiz %}
+      <div class="card">
+        <h3>Questions for "{{ selected_quiz.title }}"</h3>
+        <ul class="item-list">
+          {% for question in questions %}
+            <li class="question-item">
+              <div class="question-text">{{ question.text }}</div>
+              <div class="question-actions">
+                <a href="{% url 'delete_question' question.id %}" class="btn-delete-center" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
+              </div>
+              <ul>
+                {% for choice in question.choice_set.all %}
+                  <li>
+                    {{ choice.text }} {% if choice.is_correct %}(Correct){% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% empty %}
+            <li>No questions have been added to this quiz yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>Add New Question to "{{ selected_quiz.title }}"</h4>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="quiz_id" value="{{ selected_quiz.id }}" />
+
+          <div>
+            <label for="questionText">Question Text:</label>
+            <textarea id="questionText" name="question_text" rows="3" required></textarea>
+          </div>
+
+          <label style="margin-top: 15px;">Choices (Select the correct answer):</label>
+          {% for i in "1234" %}
+            <div class="choice-input-group">
+              <input type="text" name="choice_text" placeholder="Choice {{ forloop.counter }}" required />
+              <div class="is-correct-group">
+                <input type="radio" name="is_correct" value="{{ forloop.counter0 }}" id="isCorrect{{ forloop.counter }}" />
+                <label for="isCorrect{{ forloop.counter }}">Correct</label>
+              </div>
+            </div>
+          {% endfor %}
+
+          <button type="submit" name="add_question" style="margin-top: 15px;">Add Question</button>
+        </form>
+      </div>
+    {% endif %}
+  </main>
+
+</body>
+</html>

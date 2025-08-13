@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Basic Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 14px;
+            color: #95a5a6;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            font-size: 16px;
+            background-color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-info span {
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        /* Card Container - uses CSS Grid for responsive layout */
+        .card-container {
+            display: grid;
+            /* CHANGE: This line was modified to create exactly 3 columns */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* Individual Card Styling */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+            color: #3498db; /* Icon color */
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            Admin Panel
+        </div>
+        <div class="sidebar-footer">
+            &copy; 2025 Your Company
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Control Panel</h1>
+            <div class="user-info">
+    Welcome, <span>{{ request.user.username }}</span> |
+    <a href="{% url 'logout' %}" style="color: #e74c3c; font-weight: 600; text-decoration: none; margin-left: 8px;"
+       onclick="return confirm('Are you sure you want to logout?');">
+       Logout
+    </a>
+</div>
+
+        </header>
+
+        <div class="card-container">
+            <a href="{% url 'manage_users' %}" class="card">
+                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.625.933.94 2.056.94 3.174l.006.008z" />
+                </svg>
+                <h3>Manage Users</h3>
+                <p>Add, edit, or remove user accounts and permissions.</p>
+            </a>
+
+            <a href="{% url 'manage_results' %}" class="card">
+                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9a9.75 9.75 0 100-13.5h9a9.75 9.75 0 000 13.5zM16.5 18.75v-13.5" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 12.75L15.75 9 12.75 5.25" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 12.75L9.75 9l3-3.75" />
+                </svg>
+                <h3>Manage Results</h3>
+                <p>View, publish, or update student and exam results.</p>
+            </a>
+
+            <a href="{% url 'manage_notices' %}" class="card">
+                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+                <h3>Manage Notices</h3>
+                <p>Create and post announcements to the notice board.</p>
+            </a>
+
+            <a href="{% url 'manage_quiz_questions' %}" class="card">
+                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                </svg>
+                <h3>Manage Quiz</h3>
+                <p>Develop and organize questions for online quizzes.</p>
+            </a>
+
+            <a href="{% url 'manage_resource' %}" class="card">
+                 <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+                <h3>Manage Resources</h3>
+                <p>Upload and organize study materials and files.</p>
+            </a>
+
+        </div>
+    </main>
+</body>
+</html>

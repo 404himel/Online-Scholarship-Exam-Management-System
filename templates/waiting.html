@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Countdown</title>
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        #countdown {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2980b9;
+            margin-top: 10px;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📅 Exam will start at:</h2>
+        <h2>{{ exam_start_time }}</h2>
+        <div id="countdown">Loading...</div>
+        <div class="note">Please be ready before the countdown ends.</div>
+    </div>
+
+    <script>
+        let startTime = new Date("{{ exam_start_time|date:'Y-m-d H:i:s' }}").getTime();
+
+        let timer = setInterval(function() {
+            let now = new Date().getTime();
+            let distance = startTime - now;
+
+            if (distance <= 0) {
+                clearInterval(timer);
+                location.reload(); // reload to show quiz
+            } else {
+                let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+                let minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+                let seconds = Math.floor((distance % (1000*60)) / 1000);
+                document.getElementById("countdown").innerHTML =
+                    `${hours}h ${minutes}m ${seconds}s`;
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>

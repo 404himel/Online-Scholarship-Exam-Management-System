@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Resources</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary-50: #f0f9ff;
+            --primary-100: #e0f2fe;
+            --primary-200: #bae6fd;
+            --primary-300: #7dd3fc;
+            --primary-400: #38bdf8;
+            --primary-500: #0ea5e9;
+            --primary-600: #0284c7;
+            --primary-700: #0369a1;
+            --primary-800: #075985;
+            --primary-900: #0c4a6e;
+
+            --secondary-50: #fdf4ff;
+            --secondary-100: #fae8ff;
+            --secondary-200: #f5d0fe;
+            --secondary-300: #f0abfc;
+            --secondary-400: #e879f9;
+            --secondary-500: #d946ef;
+            --secondary-600: #c026d3;
+            --secondary-700: #a21caf;
+            --secondary-800: #86198f;
+            --secondary-900: #701a75;
+
+            --emerald-400: #34d399;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --amber-400: #fbbf24;
+            --amber-500: #f59e0b;
+            --amber-600: #d97706;
+            
+            --rose-400: #fb7185;
+            --rose-500: #f43f5e;
+            --rose-600: #e11d48;
+            
+            --violet-400: #a78bfa;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            /* Dynamic Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-hero: linear-gradient(135deg, rgba(103, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        /* === NAVBAR STYLES (UNCHANGED) === */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .menu-button {
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+        }
+
+        form.logout-form {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .facebook-logo img {
+            width: 30px;
+            height: 32px;
+            margin-top: 5px;
+        }
+
+        .right-section button {
+            padding: 6px 12px;
+            font-size: 14px;
+            height: 32px;
+            line-height: 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .logout-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            height: 32px;
+            line-height: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .menu-overlay.active {
+            left: 0;
+        }
+
+        .menu-items {
+            list-style-type: none;
+            padding: 20px;
+        }
+
+        .menu-items li {
+            margin: 15px 0;
+        }
+
+        .menu-items li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu-items li a:hover {
+            color: #ddd;
+        }
+
+        /* === NEW MODERN MAIN CONTENT === */
+        main {
+            padding-top: 100px; /* Account for fixed header */
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-hero);
+            border-radius: 24px;
+            margin: 2rem 0;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(103, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Search & Filter Section */
+        .search-filter-section {
+            margin: 3rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: 1.2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--gray-600);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.3);
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        /* Modern Resource Cards */
+        .resource-category {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .resource-category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-header {
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .books-section .category-header::before {
+            background: var(--gradient-primary);
+        }
+        .videos-section .category-header::before {
+            background: var(--gradient-secondary);
+        }
+        .docs-section .category-header::before {
+            background: var(--gradient-accent);
+        }
+        .others-section .category-header::before {
+            background: var(--gradient-success);
+        }
+
+        .category-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 1rem;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .books-section .category-icon {
+            background: var(--gradient-primary);
+        }
+        .videos-section .category-icon {
+            background: var(--gradient-secondary);
+        }
+        .docs-section .category-icon {
+            background: var(--gradient-accent);
+        }
+        .others-section .category-icon {
+            background: var(--gradient-success);
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            flex: 1;
+        }
+
+        .category-count {
+            background: rgba(103, 126, 234, 0.1);
+            color: var(--primary-700);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .category-description {
+            margin-top: 1rem;
+            color: var(--gray-600);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Resource Items */
+        .resource-items {
+            padding: 0 2rem 2rem;
+        }
+
+        .resource-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--gray-50);
+            border-radius: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .resource-item:hover {
+            background: white;
+            border-color: var(--primary-300);
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2);
+        }
+
+        .resource-item:hover::before {
+            left: 100%;
+        }
+
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-title i {
+            color: var(--primary-500);
+            font-size: 0.9rem;
+        }
+
+        .resource-description {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-400);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* === FOOTER STYLES (UNCHANGED) === */
+        footer {
+            background: linear-gradient(135deg, #1a2a41, #3a5f8a);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #f4b942;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .social-links a:hover {
+            background-color: #4a90e2;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .search-filter-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .search-box {
+                max-width: none;
+            }
+            
+            .category-title-row {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .resource-item:hover {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .category-header {
+                padding: 1.5rem;
+            }
+            
+            .resource-items {
+                padding: 0 1.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook" />
+                </a>
+
+                {% if user.is_authenticated %}
+                    <!-- Dashboard Button for Student -->
+                    <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Profile</button>
+
+                    <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin_login' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+
+        <!-- Menu (Hidden by Default) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <li><a href="/quiz/start">Mock Test</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li><a href="/performance-home">Performance Analysis</a></li>
+                <li><a href="/chat-home">Chat Bot</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">🚀 Learning Resources Hub</h1>
+                    <p class="hero-subtitle">Discover a curated collection of premium educational materials designed to accelerate your learning journey and unlock your full potential.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">
+                                {{ books|length|default:0 }}
+                            </span>
+                            <span class="stat-label">Books</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">
+                                {{ videos|length|default:0 }}
+                            </span>
+                            <span class="stat-label">Videos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">
+                                {{ docs|length|default:0 }}
+                            </span>
+                            <span class="stat-label">Docs</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">
+                                {{ others|length|default:0 }}
+                            </span>
+                            <span class="stat-label">Others</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search & Filter Section -->
+            <section class="search-filter-section">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search resources...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="books">Books</button>
+                    <button class="filter-btn" data-filter="videos">Videos</button>
+                    <button class="filter-btn" data-filter="docs">Docs</button>
+                    <button class="filter-btn" data-filter="others">Others</button>
+                </div>
+            </section>
+
+            <!-- Resources Grid -->
+            <div class="resources-grid" id="resourcesGrid">
+                <!-- Books Category -->
+                <div class="resource-category books-section" data-category="books">
+                    <div class="category-header">
+                        <div class="category-title-row">
+                            <div class="category-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h2 class="category-title">Books</h2>
+                            <div class="category-count">{{ books|length|default:0 }} items</div>
+                        </div>
+                        <p class="category-description">Comprehensive textbooks, reference materials, and educational guides</p>
+                    </div>
+                    
+                    <div class="resource-items">
+                        {% if books %}
+                            {% for item in books %}
+                                <a href="{{ item.url }}" target="_blank" class="resource-item">
+                                    <div class="resource-title">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        {{ item.title }}
+                                    </div>
+                                    <div class="resource-description">{{ item.description }}</div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-book-open"></i>
+                                <h3>No Books Available</h3>
+                                <p>Check back later for new book resources</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Videos Category -->
+                <div class="resource-category videos-section" data-category="videos">
+                    <div class="category-header">
+                        <div class="category-title-row">
+                            <div class="category-icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <h2 class="category-title">Videos</h2>
+                            <div class="category-count">{{ videos|length|default:0 }} items</div>
+                        </div>
+                        <p class="category-description">Interactive video tutorials, lectures, and visual learning content</p>
+                    </div>
+                    
+                    <div class="resource-items">
+                        {% if videos %}
+                            {% for item in videos %}
+                                <a href="{{ item.url }}" target="_blank" class="resource-item">
+                                    <div class="resource-title">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        {{ item.title }}
+                                    </div>
+                                    <div class="resource-description">{{ item.description }}</div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-video"></i>
+                                <h3>No Videos Available</h3>
+                                <p>New video content coming soon</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Documentation Category -->
+                <div class="resource-category docs-section" data-category="docs">
+                    <div class="category-header">
+                        <div class="category-title-row">
+                            <div class="category-icon">
+                                <i class="fas fa-file-code"></i>
+                            </div>
+                            <h2 class="category-title">Documentation</h2>
+                            <div class="category-count">{{ docs|length|default:0 }} items</div>
+                        </div>
+                        <p class="category-description">Technical documentation, guides, and reference materials</p>
+                    </div>
+                    
+                    <div class="resource-items">
+                        {% if docs %}
+                            {% for item in docs %}
+                                <a href="{{ item.url }}" target="_blank" class="resource-item">
+                                    <div class="resource-title">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        {{ item.title }}
+                                    </div>
+                                    <div class="resource-description">{{ item.description }}</div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-file-code"></i>
+                                <h3>No Documentation Available</h3>
+                                <p>Documentation resources will be added soon</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Other Resources Category -->
+                <div class="resource-category others-section" data-category="others">
+                    <div class="category-header">
+                        <div class="category-title-row">
+                            <div class="category-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h2 class="category-title">Other Resources</h2>
+                            <div class="category-count">{{ others|length|default:0 }} items</div>
+                        </div>
+                        <p class="category-description">Additional learning materials, tools, and supplementary content</p>
+                    </div>
+                    
+                    <div class="resource-items">
+                        {% if others %}
+                            {% for item in others %}
+                                <a href="{{ item.url }}" target="_blank" class="resource-item">
+                                    <div class="resource-title">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        {{ item.title }}
+                                    </div>
+                                    <div class="resource-description">{{ item.description }}</div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-lightbulb"></i>
+                                <h3>No Other Resources Available</h3>
+                                <p>More diverse resources coming your way</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Kazi Mofizul Islam Welfare Trust</h3>
+                <p>Empowering students through education and scholarship opportunities since 2010.</p>
+                <div class="social-links">
+                    <a href="#"><span>fb</span></a>
+                    <a href="#"><span>tw</span></a>
+                    <a href="#"><span>ig</span></a>
+                    <a href="#"><span>yt</span></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/notice">Notice</a></li>
+                    <li><a href="/admit">Admit Card</a></li>
+                    <li><a href="/result">Result</a></li>
+                    <li><a href="/faq">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p>123 Education Street</p>
+                <p>Dhaka, Bangladesh</p>
+                <p>Email: info@kmiwt.org</p>
+                <p>Phone: +880 123 456 7890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Kazi Mofizul Islam Welfare Trust. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu functionality (unchanged)
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            menuOverlay.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        menuOverlay.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const resourceItems = document.querySelectorAll('.resource-item');
+        const resourceCategories = document.querySelectorAll('.resource-category');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            resourceCategories.forEach(category => {
+                let hasVisibleItems = false;
+                const items = category.querySelectorAll('.resource-item');
+                
+                items.forEach(item => {
+                    const title = item.querySelector('.resource-title').textContent.toLowerCase();
+                    const description = item.querySelector('.resource-description').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Hide category if no items match
+                const emptyState = category.querySelector('.empty-state');
+                if (!hasVisibleItems && !emptyState) {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = 'block';
+                }
+            });
+        });
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                resourceCategories.forEach(category => {
+                    if (filterValue === 'all' || category.getAttribute('data-category') === filterValue) {
+                        category.style.display = 'block';
+                        // Reset search when filtering
+                        const items = category.querySelectorAll('.resource-item');
+                        items.forEach(item => item.style.display = 'block');
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+                
+                // Clear search when filtering
+                searchInput.value = '';
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe resource categories for animation
+        resourceCategories.forEach(category => {
+            category.style.opacity = '0';
+            category.style.transform = 'translateY(30px)';
+            category.style.transition = 'all 0.6s ease';
+            observer.observe(category);
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Add smooth hover effects for resource items
+        resourceItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(8px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

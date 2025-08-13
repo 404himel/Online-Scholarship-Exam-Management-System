@@ -1,0 +1,568 @@
+<!-- <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deleted User Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header and Navbar */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Menu Button */
+.menu-button {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Right Section (Facebook Logo and Auth Buttons) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.facebook-logo img {
+    width: 30px;
+    height: 32px;
+    margin-top: 5px;
+}
+
+/* Logout Button */
+.logout-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.logout-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.menu-overlay.active {
+    left: 0;
+}
+
+.menu-items {
+    list-style-type: none;
+    padding: 20px;
+}
+
+.menu-items li {
+    margin: 15px 0;
+}
+
+.menu-items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-items li a:hover {
+    color: #ddd;
+}
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Footer - only visible when scrolled to */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative; /* Changed to normal document flow */
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("{% static 'bg.webp' %}");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeInUp 1.2s ease-in-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-cta:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Wave Divider */
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+
+        .wave-divider .shape-fill {
+            fill: var(--light-color);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 80px 20px;
+            background-color: #f1f7fe;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-card:before {
+            content: '"';
+            font-size: 120px;
+            color: rgba(74, 144, 226, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            line-height: 0;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 60px 20px;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            background-color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+      
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background-color: #3498db;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 30px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        button {
+            background-color: #2563eb; /* Blue background */
+            color: white; /* White text */
+            padding: 10px 20px; /* Vertical and horizontal padding */
+            border: none; /* Remove default border */
+            border-radius: 4px; /* Rounded corners */
+            font-size: 16px; /* Comfortable text size */
+            font-weight: 500; /* Slightly bold text */
+            cursor: pointer; /* Hand cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            margin: 10px 0; /* Add some vertical spacing */
+        }
+        
+        button:hover {
+            background-color: #1d4ed8; /* Slightly darker blue on hover */
+        }
+        
+        button:active {
+            background-color: #1e40af; /* Even darker when clicked */
+            transform: translateY(1px); /* Slight downward movement when clicked */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+        
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook">
+                </a>
+        
+                {% if user.is_authenticated %}
+                    <!-- Dashboard Button for Student -->
+                    
+                        <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Dashboard</button>
+                  
+                    
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+        
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <!-- Menu (Hidden by Default) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <li><a href="/user_info">User info</a></li>
+                <li><a href="/delete">Deleted info</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        {% if deletion_successful %}
+            <h1>Account Successfully Deleted</h1>
+            <p>Your account has been deleted successfully. You will be redirected to the sign-up page shortly.</p>
+            <!-- Button to redirect the user to the sign-up page -->
+            <a href="{% url 'signup' %}" class="button">Go to Sign Up Page</a>
+        {% endif %}
+        
+        <h2>All Deleted Accounts</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>School</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in deleted_users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    <td>{{ user.school }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No deleted accounts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            menuOverlay.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        menuOverlay.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    </script>
+
+</body>
+</html> -->

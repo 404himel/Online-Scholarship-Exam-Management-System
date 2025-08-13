@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Quiz Page</title>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+   <style>
+      /* --- Your existing quiz styles --- */
+ body {
+    padding-top: 60px; /* height of header + some space */
+    /* keep existing styles */
+    background-color: #f7f9fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+      form {
+         max-width: 700px;
+         width: 100%;
+         background: white;
+         padding: 30px 40px;
+         border-radius: 16px;
+         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+         margin: auto;
+         z-index: 10;
+      }
+
+      h2 {
+         text-align: center;
+         font-weight: 700;
+         font-size: 2rem;
+         margin-bottom: 40px;
+         color: #34495e;
+      }
+
+      #timer {
+         font-size: 1.2rem;
+         font-weight: 700;
+         color: #e74c3c;
+         text-align: center;
+         margin-bottom: 20px;
+         user-select: none;
+      }
+
+      fieldset {
+         border: 2px solid #2980b9;
+         border-radius: 12px;
+         padding: 20px;
+         margin-bottom: 30px;
+         box-shadow: 0 4px 10px rgba(41, 128, 185, 0.15);
+         background: #f7f9fc;
+      }
+
+      legend {
+         font-weight: 600;
+         font-size: 1.1rem;
+         color: #2c3e50;
+         padding: 0 10px;
+      }
+
+      label {
+         display: block;
+         margin: 12px 0;
+         cursor: pointer;
+         font-size: 1rem;
+         color: #2c3e50;
+      }
+
+      input[type="radio"] {
+         margin-right: 12px;
+         accent-color: #2980b9;
+         cursor: pointer;
+      }
+
+      button[type="submit"] {
+         display: block;
+         width: 100%;
+         background-color: #2980b9;
+         color: white;
+         font-weight: 600;
+         font-size: 1.1rem;
+         padding: 14px 0;
+         border: none;
+         border-radius: 30px;
+         cursor: pointer;
+         box-shadow: 0 4px 12px rgba(41, 128, 185, 0.4);
+         transition: background-color 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+         background-color: #1c5d8b;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+         form {
+            padding: 25px 20px;
+         }
+      }
+
+      /* --- Header and Nav styles (copied from previous page) --- */
+ /* Header fixed to top */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;      /* Fix at top */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+      nav {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         width: 100%;
+      }
+
+      .menu-button {
+         cursor: pointer;
+         font-size: 24px;
+         color: white;
+      }
+form.logout-form {
+    display: inline-block; /* or inline */
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+      .right-section {
+         display: flex;
+         align-items: center;
+         gap: 15px;
+      }
+
+      .facebook-logo img {
+         width: 30px;
+         height: 32px;
+         margin-top: 5px;
+      }
+.right-section button {
+    padding: 6px 12px;
+    font-size: 14px;
+    height: 32px;
+    line-height: 20px;
+}
+    .logout-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 6px 12px;       /* smaller padding */
+    font-size: 14px;         /* smaller font */
+    cursor: pointer;
+    border-radius: 4px;
+    height: 32px;            /* fix height */
+    line-height: 20px;
+}
+
+
+      .logout-btn:hover {
+         background-color: #0056b3;
+      }
+
+      .dropdown {
+         position: relative;
+      }
+
+      .dropbtn {
+         background-color: #4a90e2;
+         color: white;
+         padding: 10px 14px;
+         font-size: 14px;
+         border: none;
+         border-radius: 8px;
+         cursor: pointer;
+      }
+
+      .dropdown-content {
+         display: none;
+         position: absolute;
+         right: 0;
+         background-color: white;
+         min-width: 160px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+         z-index: 1;
+         border-radius: 8px;
+         overflow: hidden;
+      }
+
+      .dropdown-content a {
+         color: #333;
+         padding: 12px 16px;
+         text-decoration: none;
+         display: block;
+         font-size: 14px;
+      }
+
+      .dropdown-content a:hover {
+         background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+         display: block;
+      }
+
+      .menu-overlay {
+         position: fixed;
+         top: 0;
+         left: -100%;
+         width: 250px;
+         height: 100%;
+         background-color: #333;
+         transition: left 0.3s ease;
+         z-index: 1000;
+      }
+
+      .menu-overlay.active {
+         left: 0;
+      }
+
+      .menu-items {
+         list-style-type: none;
+         padding: 20px;
+      }
+
+      .menu-items li {
+         margin: 15px 0;
+      }
+
+      .menu-items li a {
+         color: white;
+         text-decoration: none;
+         font-size: 18px;
+      }
+
+      .menu-items li a:hover {
+         color: #ddd;
+      }
+
+      /* --- Footer styles (copied from previous page) --- */
+      footer {
+         background: linear-gradient(135deg, #1a2a41, #3a5f8a);
+         color: white;
+         padding: 40px 20px;
+         text-align: center;
+         position: relative;
+         width: 100%;
+         margin-top: auto;
+      }
+
+      .footer-content {
+         max-width: 1200px;
+         margin: 0 auto;
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+         gap: 40px;
+         text-align: left;
+      }
+
+      .footer-column h3 {
+         font-size: 1.3rem;
+         margin-bottom: 20px;
+         position: relative;
+         padding-bottom: 10px;
+      }
+
+      .footer-column h3:after {
+         content: '';
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 40px;
+         height: 3px;
+         background-color: #f4b942;
+      }
+
+      .footer-links {
+         list-style: none;
+      }
+
+      .footer-links li {
+         margin-bottom: 10px;
+      }
+
+      .footer-links a {
+         color: #ddd;
+         text-decoration: none;
+         transition: all 0.3s;
+      }
+
+      .footer-links a:hover {
+         color: white;
+         padding-left: 5px;
+      }
+
+      .social-links {
+         display: flex;
+         gap: 15px;
+         margin-top: 20px;
+      }
+
+      .social-links a {
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         width: 36px;
+         height: 36px;
+         background-color: rgba(255, 255, 255, 0.1);
+         color: white;
+         border-radius: 50%;
+         transition: all 0.3s;
+         font-weight: bold;
+         font-size: 16px;
+         text-transform: uppercase;
+      }
+
+      .social-links a:hover {
+         background-color: #4a90e2;
+         transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+         margin-top: 40px;
+         padding-top: 20px;
+         border-top: 1px solid rgba(255, 255, 255, 0.1);
+         text-align: center;
+         font-size: 0.9rem;
+         color: #aaa;
+      }
+   </style>
+</head>
+
+<body>
+   <header>
+      <nav>
+         <!-- Left Side: Menu Button -->
+         <div class="menu-button" id="menuButton">
+            <span>☰</span>
+         </div>
+
+         <!-- Right Side -->
+         <div class="right-section">
+            <a href="https://facebook.com" target="_blank" class="facebook-logo">
+               <img src="{% static 'facebook-icon.png' %}" alt="Facebook" />
+            </a>
+
+            {% if user.is_authenticated %}
+            <!-- Dashboard Button for Student -->
+            <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Profile</button>
+
+          <form action="{% url 'logout' %}" method="POST" class="logout-form">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">Log Out</button>
+</form>
+
+            {% else %}
+            <!-- Dropdown for Login -->
+            <div class="dropdown">
+               <button class="dropbtn">Log In ▾</button>
+               <div class="dropdown-content">
+                  <a href="{% url 'admin_login' %}">Admin Login</a>
+                  <a href="{% url 'login' %}">User Login</a>
+               </div>
+            </div>
+
+            <!-- Signup button -->
+            <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+            {% endif %}
+         </div>
+      </nav>
+
+      <!-- Menu (Hidden by Default) -->
+      <div class="menu-overlay" id="menuOverlay">
+         <ul class="menu-items">
+            <li><a href="/">Home</a></li>
+            <li><a href="/notice">Notice</a></li>
+            <li><a href="/admit">Admit Card</a></li>
+            <li><a href="/result">Result</a></li>
+            <li><a href="/faq">FAQs</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+            <li><a href="/quiz/start">Mock Test</a></li>
+            <li><a href="/resources">Resources</a></li>
+            <li><a href="/performance-home">Performance Analysis</a></li>
+            <li><a href="/chat-home">Chat Bot</a></li>
+         </ul>
+      </div>
+   </header>
+
+   <main>
+      <form id="quizForm" method="post" action="{% url 'submit_quiz' %}">
+         {% csrf_token %}
+         <h2>Take the Quiz</h2>
+
+         <div id="timer">Time left: 02:00</div>
+
+         {% for question in questions %}
+         <fieldset>
+            <legend>{{ forloop.counter }}. {{ question.text }}</legend>
+
+            {% for choice in question.choice_set.all %}
+            <label>
+               <input type="radio" name="{{ question.id }}" value="{{ choice.id }}" required />
+               {{ choice.text }}
+            </label>
+            {% endfor %}
+         </fieldset>
+         {% endfor %}
+
+         <button type="submit">Submit Answers</button>
+      </form>
+   </main>
+
+   <footer>
+      <div class="footer-content">
+         <div class="footer-column">
+            <h3>Kazi Mofizul Islam Welfare Trust</h3>
+            <p>Empowering students through education and scholarship opportunities since 2010.</p>
+            <div class="social-links">
+               <a href="#"><span>fb</span></a>
+               <a href="#"><span>tw</span></a>
+               <a href="#"><span>ig</span></a>
+               <a href="#"><span>yt</span></a>
+            </div>
+         </div>
+         <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+               <li><a href="/">Home</a></li>
+               <li><a href="/notice">Notice</a></li>
+               <li><a href="/admit">Admit Card</a></li>
+               <li><a href="/result">Result</a></li>
+               <li><a href="/faq">FAQs</a></li>
+            </ul>
+         </div>
+         <div class="footer-column">
+            <h3>Contact Us</h3>
+            <p>123 Education Street</p>
+            <p>Dhaka, Bangladesh</p>
+            <p>Email: info@kmiwt.org</p>
+            <p>Phone: +880 123 456 7890</p>
+         </div>
+      </div>
+      <div class="footer-bottom">
+         <p>&copy; 2023 Kazi Mofizul Islam Welfare Trust. All rights reserved.</p>
+      </div>
+   </footer>
+
+   <script>
+      const menuButton = document.getElementById('menuButton');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      menuButton.addEventListener('click', (event) => {
+         event.stopPropagation();
+         menuOverlay.classList.toggle('active');
+      });
+
+      document.addEventListener('click', () => {
+         menuOverlay.classList.remove('active');
+      });
+
+      menuOverlay.addEventListener('click', (event) => {
+         event.stopPropagation();
+      });
+
+      (function() {
+         const totalTime = 120; // total time in seconds (2 minutes)
+         const timerDisplay = document.getElementById('timer');
+         const form = document.getElementById('quizForm');
+         const storageKey = 'quizStartTime';
+
+         // Get start time from sessionStorage or set it now
+         let startTime = sessionStorage.getItem(storageKey);
+         if (!startTime) {
+            startTime = Date.now();
+            sessionStorage.setItem(storageKey, startTime);
+         } else {
+            startTime = parseInt(startTime, 10);
+         }
+
+         function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+         }
+
+         function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const timeLeft = totalTime - elapsed;
+
+            if (timeLeft <= 0) {
+               timerDisplay.textContent = "Time left: 00:00";
+               alert("Time is up! Your quiz will be submitted automatically.");
+               sessionStorage.removeItem(storageKey); // clear stored time on submission
+               form.submit();
+            } else {
+               timerDisplay.textContent = "Time left: " + formatTime(timeLeft);
+            }
+         }
+
+         updateTimer(); // initial call
+         const countdown = setInterval(updateTimer, 1000);
+
+         // Clear timer storage if user submits manually
+         form.addEventListener('submit', () => {
+            sessionStorage.removeItem(storageKey);
+            clearInterval(countdown);
+         });
+      })();
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admit Card Download</title>
+    <link rel="stylesheet" href="{%static "download.css"%}">
+</head>
+<style>
+    
+    /* Container styling */
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Error message styling */
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #c62828;
+    margin-bottom: 15px;
+}
+
+/* Admit card styling */
+.admit-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.admit-card h2 {
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+    font-size: 22px;
+    text-align: center;
+}
+
+.trust-tagline {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.admit-card h3 {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+/* Student information section */
+.student-info {
+    display: flex;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.student-photo {
+    width: 120px;
+    height: 150px;
+    border: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-right: 20px;
+    background-color: #f9f9f9;
+    font-size: 12px;
+    color: #666;
+}
+
+.student-info table {
+    flex: 1;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.student-info table th,
+.student-info table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.student-info table th {
+    width: 30%;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Exam rules section */
+.exam-rules {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    border-left: 4px solid #4a90e2;
+}
+
+.exam-rules h4 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.exam-rules ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.exam-rules li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+/* Signature section */
+.signature-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.signature-box {
+    width: 160px;
+    text-align: center;
+}
+
+.signature-line {
+    height: 1px;
+    background-color: #333;
+    margin-bottom: 5px;
+}
+
+.signature-box p {
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    color: #555;
+}
+
+/* Download button styling */
+.download-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.download-btn button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.download-btn button:hover {
+    background-color: #219653;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 600px) {
+    .student-info {
+        flex-direction: column;
+    }
+    
+    .student-photo {
+        margin: 0 auto 15px;
+    }
+    
+    .signature-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .signature-box {
+        margin-bottom: 20px;
+    }
+}
+</style>
+<body>
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+        
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook">
+                </a>
+        
+                {% if user.is_authenticated %}
+                <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Dashboard</button>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+        
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+        <!-- Menu (Hidden by Default) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <!-- <li><a href="/user_info">User info</a></li> -->
+                <li><a href="/quiz/start">Mock Test</a></li>
+                <li><a href="/resources">Resources</a></li>
+                 <li><a href="/performance-home">Performance Analysis</a></li>
+                 <li><a href="/chat-home">Chat Bot</a></li>
+               
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>🎓 Admit Card Download</h2>
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    
+        {% if student %}
+            <div class="admit-card">
+                <h2>Kazi Mofizul Islam Welfare Trust</h2>
+                <p class="trust-tagline">For the good of humanity</p>
+                <h3>ADMIT CARD</h3>
+                
+                <div class="student-info">
+                    
+                    <table>
+                        <tr>
+                            <th>Student ID</th>
+                            <td>{{ student.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ student.first_name }} {{ student.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>School</th>
+                            <td>{{ student.school }}</td>
+                        </tr>
+                        <tr>
+                            <th>Room No.</th>
+                            <td>B-204</td>
+                        </tr>
+                        <tr>
+                            <th>Seat No.</th>
+                            <td>S-42 </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="exam-rules">
+                    <h4>Examination Rules:</h4>
+                    <ul>
+                        <li>Candidates must bring this admit card to every examination.</li>
+                        <li>Arrive at the examination center at least 30 minutes before scheduled time.</li>
+                        <li>Mobile phones and electronic devices are strictly prohibited.</li>
+                        <li>No candidate will be allowed entry after 15 minutes of exam commencement.</li>
+                        <li>No candidate is permitted to leave within the first hour of examination.</li>
+                        <li>Any form of malpractice will result in disqualification.</li>
+                    </ul>
+                </div>
+                
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p>Candidate's Signature</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p>Controller of Examinations</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <a href="{% url 'generate_pdf' student.id %}" class="download-btn">
+                <button>📥 Download Admit Card</button>
+            </a>
+        {% endif %}
+    </div>
+    <footer>
+        <p>&copy; 2023 Kazi Mofizul Islam Welfare Trust. All rights reserved.</p>
+    </footer>
+     <!-- JavaScript -->
+     <script>
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        // Open menu when menu button is clicked
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent event from bubbling up
+            menuOverlay.classList.toggle('active');
+        });
+
+        // Close menu when clicking anywhere outside the menu
+        document.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        // Prevent menu from closing when clicking inside the menu
+        menuOverlay.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>

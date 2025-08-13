@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Notice</title>
+</head>
+<body>
+<h2>Edit Notice</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ notice.title }}" required><br>
+    <textarea name="content" rows="4" required>{{ notice.content }}</textarea><br>
+    <button type="submit">Update Notice</button>
+    <a href="{% url 'manage_notices' %}">Cancel</a>
+</form>
+
+<!-- Messages -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>

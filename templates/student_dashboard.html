@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile | Dashboard</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #aba4ac 0%, #f5576c 100%);
+      --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      
+      --primary-color: #d3d6e2;
+      --secondary-color: #f8fafc;
+      --accent-color: #764ba2;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border-color: #e2e8f0;
+      --surface: #ffffff;
+      --surface-elevated: #ffffff;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+      --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #8a8e9e 0%, #764ba2 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .dashboard-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-2xl);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--primary-gradient);
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .welcome-section h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-message {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Content Wrapper */
+    .content-wrapper {
+      padding: 2rem;
+    }
+
+    /* Quiz Summary Section */
+    .quiz-summary-section {
+      margin-bottom: 3rem;
+    }
+
+    .quiz-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-item {
+      background: var(--surface-elevated);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--success-gradient);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .summary-item:nth-child(2)::before {
+      background: var(--warning-gradient);
+    }
+
+    .summary-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary-color);
+    }
+
+    .summary-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .summary-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: var(--success-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .summary-item:nth-child(2) .summary-icon {
+      background: var(--warning-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .summary-item h3 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-item p {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: var(--surface-elevated);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .section-header i {
+      font-size: 1.25rem;
+      color: var(--primary-color);
+    }
+
+    /* Form Styles */
+    .form-section {
+      background: var(--surface-elevated);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      background: var(--surface);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-1px);
+    }
+
+    input:hover {
+      border-color: var(--primary-color);
+    }
+
+    input[readonly] {
+      background-color: var(--secondary-color);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* Button Styles */
+    .btn {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-danger {
+      background: var(--danger-gradient);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: var(--surface-elevated);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+    }
+
+    th:first-child {
+      border-top-left-radius: var(--radius-md);
+    }
+
+    th:last-child {
+      border-top-right-radius: var(--radius-md);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    tr:hover {
+      background-color: rgba(102, 126, 234, 0.05);
+    }
+
+    /* Delete Section */
+    .danger-section {
+      background: linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, rgba(254, 225, 64, 0.1) 100%);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 2px solid rgba(250, 112, 154, 0.2);
+    }
+
+    .danger-section .section-header {
+      color: #dc3545;
+      border-bottom-color: rgba(220, 53, 69, 0.2);
+    }
+
+    .danger-section .section-header i {
+      color: #dc3545;
+    }
+
+    /* Update Info */
+    .update-info {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      
+      .content-wrapper {
+        padding: 1.5rem;
+      }
+      
+      .welcome-section {
+        padding: 2rem 1rem;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .quiz-summary {
+        grid-template-columns: 1fr;
+      }
+      
+      .chart-container {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome-section h2 {
+        font-size: 2rem;
+      }
+      
+      .welcome-message {
+        font-size: 1rem;
+      }
+      
+      .summary-item {
+        padding: 1.5rem 1rem;
+      }
+      
+      .summary-item h3 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% block content %}
+  <div class="dashboard-container">
+    <!-- Welcome -->
+    <section class="welcome-section">
+      <h2>Welcome back, {{ user.username }}!</h2>
+      <p class="welcome-message">Track your progress and manage your profile</p>
+    </section>
+
+    <div class="content-wrapper">
+      <!-- Quiz summary and chart -->
+      <section class="quiz-summary-section">
+        <div class="quiz-summary">
+          <div class="summary-item">
+            <i class="fas fa-clipboard-list summary-icon"></i>
+            <h3>{{ quizzes_taken }}</h3>
+            <p>Quizzes Completed</p>
+          </div>
+
+          <div class="summary-item">
+            <i class="fas fa-chart-line summary-icon"></i>
+            <h3>{{ avg_score|floatformat:1 }}%</h3>
+            <p>Average Score</p>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="quizPieChart" aria-label="Quiz results chart" role="img"></canvas>
+        </div>
+      </section>
+
+      <!-- Quiz Results Table -->
+      <section class="table-container">
+        <div class="section-header">
+          <i class="fas fa-trophy"></i>
+          <h3>Your Quiz Results</h3>
+        </div>
+        {% if quiz_results %}
+        <table>
+          <thead>
+            <tr>
+              <th>Quiz Title</th>
+              <th>Score (%)</th>
+              <th>Correct / Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in quiz_results %}
+            <tr>
+              <td>{{ result.title }}</td>
+              <td>{{ result.score }}%</td>
+              <td>{{ result.correct }} / {{ result.total }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+          <i class="fas fa-clipboard-question"></i>
+          <p>No quiz results yet. Take your first quiz to see your progress here!</p>
+        </div>
+        {% endif %}
+      </section>
+
+      <!-- Profile Update Form -->
+      <section class="form-section">
+        <div class="section-header">
+          <i class="fas fa-user-edit"></i>
+          <h3>Update Profile Information</h3>
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" value="{{ user.username }}" required />
+            </div>
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required />
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required />
+            </div>
+            <div class="form-group">
+              <label for="contact">Contact Number</label>
+              <input type="text" id="contact" name="contact" value="{{ user.studentprofile.contact }}" required />
+            </div>
+            <div class="form-group">
+              <label for="password">New Password</label>
+              <input type="password" id="password" name="password" placeholder="Leave blank to keep current password" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-full">
+            <i class="fas fa-save"></i> Update Profile
+          </button>
+        </form>
+        <p class="update-info">
+          <i class="fas fa-clock"></i> Last updated: {% now "F j, Y" %}
+        </p>
+      </section>
+
+      <!-- Delete Account Section -->
+      <section class="danger-section">
+        <div class="section-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Danger Zone</h3>
+        </div>
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <p style="margin-bottom: 1rem; font-weight: 500;">
+            <strong>Delete your account permanently</strong><br>
+            <small style="color: var(--text-muted);">This action cannot be undone. All your data will be lost.</small>
+          </p>
+
+          <div class="form-group" style="max-width: 300px;">
+            <label for="user_id">Confirm with your ID</label>
+            <input type="text" id="user_id" name="user_id" placeholder="Enter your user ID" required />
+          </div>
+
+          <input type="hidden" name="confirm_delete" value="yes" />
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> Delete Account
+          </button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- Chart.js Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get correct and incorrect totals from Django context variables
+      const totalCorrect = {{ total_correct }};
+      const totalIncorrect = {{ total_questions|default:0 }} - totalCorrect;
+
+      const data = {
+        labels: ['Correct Answers', 'Incorrect Answers'],
+        datasets: [{
+          data: [totalCorrect, totalIncorrect],
+          backgroundColor: [
+            'rgba(102, 126, 234, 0.8)',
+            'rgba(250, 112, 154, 0.8)'
+          ],
+          borderColor: [
+            'rgba(102, 126, 234, 1)',
+            'rgba(250, 112, 154, 1)'
+          ],
+          borderWidth: 2,
+          hoverOffset: 8,
+          borderRadius: 8,
+        }]
+      };
+
+      const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 14,
+                  family: 'Inter',
+                  weight: '500'
+                },
+                color: '#4a5568',
+                padding: 20,
+                usePointStyle: true,
+                pointStyle: 'circle'
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: 'white',
+              bodyColor: 'white',
+              borderColor: 'rgba(102, 126, 234, 1)',
+              borderWidth: 1,
+              cornerRadius: 8,
+              displayColors: false,
+              callbacks: {
+                label: function (context) {
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const percentage = ((context.parsed / total) * 100).toFixed(1);
+                  return `${context.label}: ${context.parsed} (${percentage}%)`;
+                }
+              }
+            }
+          },
+          cutout: '60%',
+          elements: {
+            arc: {
+              borderJoinStyle: 'round'
+            }
+          }
+        },
+      };
+
+      const ctx = document.getElementById('quizPieChart').getContext('2d');
+      new Chart(ctx, config);
+    });
+  </script>
+  {% endblock %}
+</body>
+
+</html>

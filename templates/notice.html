@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'notice.css' %}">
+    <style>
+        main h1 {
+            color: #2c3e50;
+            font-size: 36px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg,rgb(0, 149, 255), #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logout-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .logout-btn:hover {
+            background-color: #0056b3;
+        }
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropbtn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with Navbar -->
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+        
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook">
+                </a>
+        
+                {% if user.is_authenticated %}
+                <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Dashboard</button>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+        
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+
+        <!-- Menu (Hidden by Default) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <!-- <li><a href="/contact-us">Contact Us</a></li> -->
+                <!-- <li><a href="/delete">Deleted info</a></li> -->
+                <li><a href="/quiz/start">Mock Test</a></li>
+                <li><a href="/resources">Resources</a></li>
+                 <li><a href="/performance-home">Performance Analysis</a></li>
+                 <li><a href="/chat-home">Chat Bot</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    {% comment %} <main>
+        <h1>Welcome to the Notice Section</h1>
+        {% for notice in notices %}
+            <div class="notice">
+                <h2>{{ notice.title }}</h2>
+                <p>{{ notice.content }}</p>
+                <small>Posted on: {{ notice.created_at }}</small>
+            </div>
+        {% empty %}
+            <p>No notices available.</p>
+        {% endfor %}
+    </main> {% endcomment %}
+    <main>
+        <h1>Welcome to the Notice Section</h1>
+    
+        {% if notices %}
+        <table class="notice-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Posted On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notice in notices %}
+                <tr>
+                    <td>{{ notice.title }}</td>
+                    <td>{{ notice.content }}</td>
+                    <td>{{ notice.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="no-notice-message">No notices available.</p>
+        {% endif %}
+    </main>
+    
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Scholarship Provider. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        // Open menu when menu button is clicked
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent event from bubbling up
+            menuOverlay.classList.toggle('active');
+        });
+
+        // Close menu when clicking anywhere outside the menu
+        document.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        // Prevent menu from closing when clicking inside the menu
+        menuOverlay.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+
+</html>

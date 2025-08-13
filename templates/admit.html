@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admit Card Download</title>
+    <link rel="stylesheet" href="{%static "admit.css"%}">
+    <style>
+     
+            table {
+                width: 90%; /* Increased width for better visibility */
+                margin: 30px auto;
+                border-collapse: collapse;
+                font-size: 18px; /* Slightly larger text */
+                text-align: center;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+            }
+        
+            th, td {
+                padding: 14px 18px; /* More padding for better spacing */
+                border-bottom: 1px solid #ddd;
+            }
+        
+            th {
+                background-color: #4CAF50;
+                color: white;
+                font-size: 20px;
+            }
+        
+            td {
+                background-color: #fff;
+                font-size: 17px;
+            }
+        
+            tr:nth-child(even) td {
+                background-color: #f3f3f3;
+            }
+        
+            tr:hover td {
+                background-color: #e6f7e6;
+            }
+       
+        
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropbtn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Left Side: Menu Button -->
+            <div class="menu-button" id="menuButton">
+                <span>☰</span>
+            </div>
+        
+            <!-- Right Side -->
+            <div class="right-section">
+                <a href="https://facebook.com" target="_blank" class="facebook-logo">
+                    <img src="{% static 'facebook-icon.png' %}" alt="Facebook">
+                </a>
+        
+                {% if user.is_authenticated %}
+                <button onclick="window.location.href='{% url 'student_dashboard' %}'">Student Dashboard</button>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                {% else %}
+                    <!-- Dropdown for Login -->
+                    <div class="dropdown">
+                        <button class="dropbtn">Log In ▾</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'admin' %}">Admin Login</a>
+                            <a href="{% url 'login' %}">User Login</a>
+                        </div>
+                    </div>
+        
+                    <!-- Signup button -->
+                    <button onclick="window.location.href='{% url 'signup' %}'">Sign Up</button>
+                {% endif %}
+            </div>
+        </nav>
+
+        <!-- Menu (Hidden by Default) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <ul class="menu-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/notice">Notice</a></li>
+                <li><a href="/admit">Admit Card</a></li>
+                <li><a href="/result">Result</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <!-- <li><a href="/user_info">User info</a></li> -->
+                <!-- <li><a href="/delete">Deleted info</a></li> -->
+                <li><a href="/quiz/start">Mock Test</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li><a href="/performance-home">Performance Analysis</a></li>
+                <li><a href="/chat-home">Chat Bot</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Admit Card Download</h2>
+        
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <form action="{% url 'download_admit' %}" method="POST">
+            {% csrf_token %}
+            <label for="reg_no">Registration Number:</label>
+            <input type="text" id="reg_no" name="reg_no" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <h3>Users Who Downloaded Admit Card:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Download Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in downloaded_users %}
+                <tr>
+                    <td>{{ record.user_id }}</td>
+                    <td>{{ record.user.first_name }} {{ record.user.last_name }}</td>
+                    <td>{{ record.download_time }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+
+        
+    </div>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 Scholarship Provider. All rights reserved.</p>
+        </footer>
+    
+        <!-- JavaScript -->
+        <script>
+            const menuButton = document.getElementById('menuButton');
+            const menuOverlay = document.getElementById('menuOverlay');
+    
+            // Open menu when menu button is clicked
+            menuButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent event from bubbling up
+                menuOverlay.classList.toggle('active');
+            });
+    
+            // Close menu when clicking anywhere outside the menu
+            document.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+            });
+    
+            // Prevent menu from closing when clicking inside the menu
+            menuOverlay.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+        </script>
+</body>
+</html>

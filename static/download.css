@@ -1,0 +1,272 @@
+.container {
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.download-btn {
+    margin-top: 20px;
+}
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* Header and Navbar */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Menu Button */
+.menu-button {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Right Section (Facebook Logo and Auth Buttons) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+}
+
+
+.facebook-logo img {
+    width: 30px;
+    height: 32px;
+    margin-top: 5px;
+}
+
+.auth-buttons button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.auth-buttons button:hover {
+    background-color: #777;
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* Hidden by default */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.menu-overlay.active {
+    left: 0;
+    /* Show menu */
+}
+
+.menu-items {
+    list-style-type: none;
+    padding: 20px;
+}
+
+.menu-items li {
+    margin: 15px 0;
+}
+
+.menu-items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-items li a:hover {
+    color: #ddd;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    text-align: center;
+    color: #9bf40d;
+
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 40%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Menu Button */
+.menu-button {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Right Section (Facebook Logo and Auth Buttons) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+}
+
+
+.facebook-logo img {
+    width: 30px;
+    height: 32px;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* Hidden by default */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.menu-overlay.active {
+    left: 0;
+    /* Show menu */
+}
+
+.menu-items {
+    list-style-type: none;
+    padding: 20px;
+}
+
+.menu-items li {
+    margin: 15px 0;
+}
+
+.menu-items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-items li a:hover {
+    color: #ddd;
+}
